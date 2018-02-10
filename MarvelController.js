@@ -1,10 +1,10 @@
-MarvelController = function MarvelController() {
+MarvelController = function MarvelController() { //this function runs second
     var marvelService = new MarvelService()
-
-    //Private
+    
+    //Private //this section runs fourth
     function getCharacters() {
-        marvelService.getCharacters(drawMarvel)
-    }
+        marvelService.getCharacters(drawMarvel) //this runs fifth because of the draw at the bottom of the page
+    } //this is seventh if there isn't local storage, 8th if there is.
     function getMyTeam() {
         marvelService.getMyTeam(drawMyTeam)
     }
@@ -12,15 +12,15 @@ MarvelController = function MarvelController() {
         marvelService.resetTeam(resetTeam)
     }
 
-    function drawMarvel(arr) {
+    function drawMarvel(arr) { // this runs 10th after the callback function
         console.log(arr)
         var template = ''
         var marvelElem = document.getElementById("marvel-characters")
-        for (var i = 0; i < arr.length; i++) {
+        for (var i = 0; i < arr.length; i++) { //this runs 11th + i (runs for every character)
             var char = arr[i]
             char.description = char.description ? char.description : 'No Description Avalable'
             template += `
-            <div class="col-4 character">
+            <div class="col-4 cards">
             <img src="${char.thumbnail.path + '.' + char.thumbnail.extension}" alt="">
             <h4><b>Name:</b> ${char.name}</h4>
             <p><b>Description:</b> ${char.description}</p>
@@ -32,7 +32,7 @@ MarvelController = function MarvelController() {
         marvelElem.innerHTML = template
     }
 
-    function drawMyTeam(myTeam) {
+    function drawMyTeam(myTeam) { //this is 17th and 21st
         console.log(myTeam)
         var myTeamTemplate = ''
         var myTeamElem = document.getElementById("myTeam")
@@ -40,7 +40,7 @@ MarvelController = function MarvelController() {
             var char = myTeam[i]
             char.description = char.description ? char.description : 'No Description Avalable'
             myTeamTemplate += `
-            <div class="col-4 character">
+            <div class="col-4 cards">
             <img src="${char.thumbnail.path + '.' + char.thumbnail.extension}" alt="">
             <h4><b>Name:</b> ${char.name}</h4>
             <p><b>Description:</b> ${char.description}</p>
@@ -66,15 +66,15 @@ MarvelController = function MarvelController() {
 
     //Public
     //passes id number to service.
-    this.addToTeam = function addToTeam(marvelId) {
-        marvelService.addToTeam(marvelId)
-        getMyTeam()
+    this.addToTeam = function addToTeam(marvelId) { //this runs 11th after a click is provided. Won't run until then
+        marvelService.addToTeam(marvelId) //this is 14th
+        getMyTeam() //this is 16th
     }
 
     //passes id number to service.
-    this.removeFromTeam = function removeFromTeam(removeId) {
+    this.removeFromTeam = function removeFromTeam(removeId) { //18th (onclick)
         marvelService.removeFromTeam(removeId)
-        getMyTeam()
+        getMyTeam() //19th
     }
     this.resetTeam = function resetTeam(str) {
         marvelService.resetTeam(str)
@@ -82,5 +82,5 @@ MarvelController = function MarvelController() {
     }
 
     resetTeam()
-    getCharacters()
+    getCharacters() //this runs 8th
 }
